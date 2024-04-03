@@ -1,0 +1,18 @@
+import axios from "axios";
+
+export const weatherAPI = {
+  fetchWeather: async (cityData) => {
+    const apiKey = process.env.EXPO_PUBLIC_OPEN_WEATHER_KEY;
+    //console.log("apiKey", apiKey);
+
+    const apiUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${cityData.lat}&lon=${cityData.lon}&appid=${apiKey}`;
+
+    try {
+      const response = await axios.get(apiUrl);
+      console.log("responseapı", JSON.stringify(response.data));
+      return response.data;
+    } catch (error) {
+      throw new Error("Unable to fetch weather data");
+    }
+  },
+};
