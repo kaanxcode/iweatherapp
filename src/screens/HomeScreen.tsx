@@ -9,6 +9,7 @@ import {
 import React from "react";
 import SearchBar from "../components/SearchBar";
 import { SafeAreaView } from "react-native-safe-area-context";
+import GeoLocationButton from "../components/GeoLocationButton";
 
 const HomeScreen = () => {
   return (
@@ -36,6 +37,9 @@ const HomeScreen = () => {
         </View>
         <View style={styles.searchBarContaier}>
           <SearchBar />
+        </View>
+        <View style={styles.geoLocationButtonContainer}>
+          <GeoLocationButton />
         </View>
       </ImageBackground>
     </SafeAreaView>

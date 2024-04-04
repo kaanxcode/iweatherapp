@@ -9,7 +9,7 @@ export const weatherAPI = {
 
     try {
       const response = await axios.get(apiUrl);
-      console.log("responseapı", JSON.stringify(response.data));
+      //console.log("responseapı", JSON.stringify(response.data));
       return response.data;
     } catch (error) {
       throw new Error("Unable to fetch weather data");

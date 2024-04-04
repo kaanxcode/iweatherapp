@@ -1,39 +1,41 @@
 import { StyleSheet, Text, View, FlatList, Image } from "react-native";
 import React from "react";
 import { unixToFormattedDateParts } from "../helpers/epochConverter";
+import { getFirstTwoDigits, iconIdToImage } from "../helpers/utils";
 
 const Daily = ({ weatherData }) => {
   const daily = weatherData.daily;
 
   const renderItem = ({ item, index }) => {
     const { day, month, dayOfMonth, year } = unixToFormattedDateParts(item.dt);
-    const iconUrl = `http://openweathermap.org/img/wn/${item.weather[0].icon}.png`;
+    const iconUrl = iconIdToImage(item.weather[0].icon);
 
     return (
-      <View>
-        <Text>Daily Weather for Day {index + 1}</Text>
-        <Text>Date: {day}</Text>
+      <View style={styles.itemContainer}>
+        <Text style={styles.dayText}>{day}</Text>
         <Image
-          style={{ width: 50, height: 50 }}
+          style={styles.image}
           source={{
             uri: iconUrl,
           }}
         />
-        <Text>Day: {item.temp.day}</Text>
-        <Text>Night: {item.temp.night}</Text>
+        <Text style={styles.dayTemp}>{getFirstTwoDigits(item.temp.day)}°c</Text>
+        <Text style={styles.nightTemp}>
+          {getFirstTwoDigits(item.temp.night)}°c
+        </Text>
       </View>
     );
   };
 
   return (
-    <View>
-      <Text>Daily</Text>
-      <Text>--------</Text>
+    <View style={styles.container}>
       <FlatList
-        scrollEnabled={true}
+        showsHorizontalScrollIndicator={false}
         data={daily}
         keyExtractor={(item) => item.dt.toString()}
         renderItem={renderItem}
+        horizontal
+        style={styles.flatList}
       />
     </View>
   );
@@ -41,4 +43,51 @@ const Daily = ({ weatherData }) => {
 
 export default Daily;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: "100%",
+    paddingVertical: 12,
+    paddingHorizontal: 6,
+    borderRadius: 12,
+  },
+  flatList: {
+    flex: 1,
+  },
+  itemContainer: {
+    width: 67,
+
+    alignItems: "center",
+  },
+  dayText: {
+    alignSelf: "center",
+    fontSize: 14,
+    fontWeight: "700",
+    color: "#BFBFD4",
+  },
+  image: {
+    width: 56,
+    height: 56,
+    resizeMode: "contain",
+  },
+  dayTemp: {
+    color: "#FAFAFA",
+  },
+  nightTemp: {
+    color: "#7F7F98",
+    fontSize: 14,
+    fontWeight: "700",
+  },
+  dayContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  dayTempContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  nightTempContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+});

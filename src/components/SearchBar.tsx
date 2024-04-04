@@ -26,6 +26,7 @@ const SearchBar = () => {
   const geocodingData = useSelector(getGeocoding);
   const status = useSelector(getGeocodingStatus);
   const statusWeather = useSelector(getWeatherStatus);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     // Kullanıcının girdiği şehir ismi değiştiğinde yeni bir istek gönder
@@ -35,6 +36,7 @@ const SearchBar = () => {
 
   const handleCitySelect = (city) => {
     setSearch(city);
+    setLoading(true);
     // Seçilen şehrin koordinatlarını al
     const selectedCity = geocodingData.find((item) => item.name === city);
     const selectedCityData = {
@@ -44,11 +46,11 @@ const SearchBar = () => {
       country: selectedCity.country,
     };
 
-    if (statusWeather === "loading") {
-    } else {
+    setTimeout(() => {
       // @ts-ignore
       navigation.navigate("Weather", { cityData: selectedCityData });
-    }
+      setLoading(false); // Set loading to false after navigation
+    }, 1500);
   };
 
   const renderCityItem = ({ item }) => {
@@ -77,7 +79,7 @@ const SearchBar = () => {
           placeholderTextColor="#7F7F98"
           style={styles.textInput}
         />
-        {statusWeather === "loading" && <ActivityIndicator />}
+        {loading === true && <ActivityIndicator color="#8FB2F5" />}
       </View>
 
       {status === "idle" && geocodingData && (

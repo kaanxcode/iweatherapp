@@ -5,10 +5,11 @@ import {
   getWeather,
   fetchWeatherData,
 } from "../redux/reducer/weatherSlice";
-import { ActivityIndicator, Text, View } from "react-native";
+import { ActivityIndicator, Text, View, StyleSheet } from "react-native";
 import Card from "../components/Card";
 import WeatherDetails from "../components/WeatherDetails";
 import Daily from "../components/Daily";
+import { SafeAreaView } from "react-native-safe-area-context";
 const WeatherScreen = ({ route }) => {
   const { cityData } = route.params;
   const dispatch = useDispatch();
@@ -22,19 +23,60 @@ const WeatherScreen = ({ route }) => {
   }, [dispatch, cityData]);
 
   return (
-    <View>
-      {status === "" && <Text>boş...</Text>}
+    <SafeAreaView style={styles.container}>
       {status === "loading" && <Text>Loading...</Text>}
-      {status === "failed" && <Text>Failed to fetch weather data</Text>}
       {status === "idle" && weatherData && (
-        <View>
-          <Card cityData={cityData} weatherData={weatherData} />
-          <WeatherDetails weatherData={weatherData} />
-          <Daily weatherData={weatherData} />
-        </View>
+        <>
+          <View style={styles.cardContainer}>
+            <Card cityData={cityData} weatherData={weatherData} />
+          </View>
+          <View style={styles.WeatherDetailsContainer}>
+            <WeatherDetails weatherData={weatherData} />
+          </View>
+          <View style={styles.DailyContainer}>
+            <Daily weatherData={weatherData} />
+          </View>
+        </>
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 
 export default WeatherScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#13131A",
+    paddingBottom: 20,
+    padding: 8,
+    gap: 8,
+  },
+  cardContainer: {
+    flex: 4.5,
+    height: "100%",
+    padding: 12,
+    borderRadius: 12,
+    gap: 12,
+    backgroundColor: "#16161F",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  WeatherDetailsContainer: {
+    flex: 4,
+    borderRadius: 12,
+    paddingHorizontal: 4,
+
+    gap: 8,
+    backgroundColor: "#16161F",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  DailyContainer: {
+    flex: 2.5,
+    backgroundColor: "#161650",
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});

@@ -5,7 +5,7 @@ export const fetchGeocodingData = createAsyncThunk(
   "geocoding/fetchGeocodingData",
   async (search) => {
     const response = await geocodingAPI.fetchGeocoding(search);
-    console.log("respone", response);
+    //console.log("respone", response);
     return response;
   }
 );
