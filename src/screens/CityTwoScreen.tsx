@@ -1,33 +1,55 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { CityAPI } from "../api/CityAPI";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  getWeatherStatus,
-  getWeather,
+  fetchGeocodingData,
+  getGeocoding,
+} from "../redux/reducer/geocodingSlice";
+import {
   fetchWeatherData,
+  getWeather,
+  getWeatherStatus,
 } from "../redux/reducer/weatherSlice";
-import { ActivityIndicator, Text, View, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet, Text, View } from "react-native";
 import Card from "../components/Card";
 import WeatherDetails from "../components/WeatherDetails";
 import Daily from "../components/Daily";
-import { SafeAreaView } from "react-native-safe-area-context";
 
-const WeatherScreen = ({ route }) => {
-  const { cityData } = route.params;
-  console.log("cityData", cityData);
+const CityTwoScreen = () => {
+  const { cityTwo } = CityAPI();
+  console.log("cityOne", cityTwo);
+
   const dispatch = useDispatch();
+  const geocodingData = useSelector(getGeocoding);
   const weatherData = useSelector(getWeather);
-  //console.log("weatherscreen", weatherData);
   const status = useSelector(getWeatherStatus);
 
   useEffect(() => {
-    // @ts-ignore
-    dispatch(fetchWeatherData(cityData));
-  }, [dispatch, cityData]);
+    if (cityTwo !== "") dispatch(fetchGeocodingData(cityTwo));
+  }, [cityTwo, dispatch]);
+
+  const selectedCity = geocodingData.find((item) => item.name === cityTwo);
+  console.log("selectedCity City one scren------>", selectedCity);
+  const [cityData, setCityData] = useState(null);
+
+  useEffect(() => {
+    if (selectedCity) {
+      const data = {
+        lat: selectedCity.lat,
+        lon: selectedCity.lon,
+        name: selectedCity.local_names.tr,
+        country: selectedCity.country,
+      };
+      setCityData(data);
+      dispatch(fetchWeatherData(data));
+    }
+  }, [dispatch, selectedCity]);
 
   return (
     <SafeAreaView style={styles.container}>
       {status === "loading" && <Text>Loading...</Text>}
-      {status === "idle" && weatherData && (
+      {status === "idle" && weatherData && selectedCity && (
         <>
           <View style={styles.cardContainer}>
             <Card cityData={cityData} weatherData={weatherData} />
@@ -44,7 +66,7 @@ const WeatherScreen = ({ route }) => {
   );
 };
 
-export default WeatherScreen;
+export default CityTwoScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -68,7 +90,6 @@ const styles = StyleSheet.create({
     flex: 4,
     borderRadius: 12,
     paddingHorizontal: 4,
-
     gap: 8,
     backgroundColor: "#16161F",
     alignItems: "center",

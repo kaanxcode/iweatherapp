@@ -39,10 +39,11 @@ const SearchBar = () => {
     setLoading(true);
     // Seçilen şehrin koordinatlarını al
     const selectedCity = geocodingData.find((item) => item.name === city);
+
     const selectedCityData = {
       lat: selectedCity.lat,
       lon: selectedCity.lon,
-      name: selectedCity.name,
+      name: selectedCity.local_names.tr,
       country: selectedCity.country,
     };
 
@@ -82,7 +83,7 @@ const SearchBar = () => {
         {loading === true && <ActivityIndicator color="#8FB2F5" />}
       </View>
 
-      {status === "idle" && geocodingData && (
+      {status === "idle" && geocodingData && search && (
         <FlatList
           data={geocodingData}
           renderItem={renderCityItem}

@@ -6,12 +6,18 @@ import {
   ImageBackground,
   Image,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import SearchBar from "../components/SearchBar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import GeoLocationButton from "../components/GeoLocationButton";
+import { CityAPI } from "../api/CityAPI";
 
 const HomeScreen = () => {
+  useEffect(() => {
+    const lang = CityAPI();
+    console.log(lang);
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
@@ -37,9 +43,9 @@ const HomeScreen = () => {
         </View>
         <View style={styles.searchBarContaier}>
           <SearchBar />
-        </View>
-        <View style={styles.geoLocationButtonContainer}>
-          <GeoLocationButton />
+          <View style={styles.geoLocationButtonContainer}>
+            <GeoLocationButton />
+          </View>
         </View>
       </ImageBackground>
     </SafeAreaView>
@@ -98,5 +104,9 @@ const styles = StyleSheet.create({
   },
   textTitleColor: {
     color: "#8FB2F5",
+  },
+  geoLocationButtonContainer: {
+    flex: 1,
+    marginTop: 10,
   },
 });

@@ -11,13 +11,14 @@ import WeatherDetails from "../components/WeatherDetails";
 import Daily from "../components/Daily";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const WeatherScreen = ({ route }) => {
-  const { cityData } = route.params;
-  console.log("cityData", cityData);
+const MyLocationWeatherScreen = ({ route }) => {
+  const { cityData } = route.params || {};
+  //console.log("cityData", cityData);
+
   const dispatch = useDispatch();
   const weatherData = useSelector(getWeather);
-  //console.log("weatherscreen", weatherData);
   const status = useSelector(getWeatherStatus);
+  console.log("weatherData", weatherData);
 
   useEffect(() => {
     // @ts-ignore
@@ -44,7 +45,7 @@ const WeatherScreen = ({ route }) => {
   );
 };
 
-export default WeatherScreen;
+export default MyLocationWeatherScreen;
 
 const styles = StyleSheet.create({
   container: {
