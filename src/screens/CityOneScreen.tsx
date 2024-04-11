@@ -1,55 +1,67 @@
 import React, { useEffect, useState } from "react";
-import { CityAPI } from "../api/CityAPI";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchGeocodingData,
-  getGeocoding,
-} from "../redux/reducer/geocodingSlice";
-import {
-  fetchWeatherData,
-  getWeather,
-  getWeatherStatus,
-} from "../redux/reducer/weatherSlice";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet, Text, View } from "react-native";
 import Card from "../components/Card";
 import WeatherDetails from "../components/WeatherDetails";
 import Daily from "../components/Daily";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import {
+  fetchGeocodingData,
+  fetchWeatherData,
+} from "../redux/reducer/cityOneSlice";
+import { CityAPI } from "../api/CityAPI";
 
 const CityOneScreen = () => {
-  const { cityOne } = CityAPI();
-  console.log("cityOne", cityOne);
-  const [cityData, setCityData] = useState(null);
+  const country = useSelector((state) => state.MyLocationWeather.country);
+  if (country === null) {
+    return <Text>loading</Text>;
+  }
+  const { cityOne } = CityAPI(country);
 
   const dispatch = useDispatch();
-  const geocodingData = useSelector(getGeocoding);
-  const weatherData = useSelector(getWeather);
-  const status = useSelector(getWeatherStatus);
+  const { geocodingData, weatherData, status } = useSelector(
+    (state) => state.cityOne,
+    shallowEqual
+  );
+  const [cityData, setCityData] = useState(null);
+  console.log("cityData one screen", cityData);
 
   useEffect(() => {
-    if (cityOne !== "") dispatch(fetchGeocodingData(cityOne));
-  }, [cityOne, dispatch]);
-
-  const selectedCity = geocodingData.find((item) => item.name === cityOne);
-  console.log("selectedCity City one scren------>", selectedCity);
+    dispatch(fetchGeocodingData(cityOne));
+  }, [dispatch]);
 
   useEffect(() => {
-    if (selectedCity) {
+    if (geocodingData && geocodingData.length > 0) {
+      console.log(
+        "geocodingData[0].local_names.tr:",
+        geocodingData[0].local_names.tr
+      );
+
       const data = {
-        lat: selectedCity.lat,
-        lon: selectedCity.lon,
-        name: selectedCity.local_names.tr,
-        country: selectedCity.country,
+        lat: geocodingData[0].lat,
+        lon: geocodingData[0].lon,
+        name: geocodingData[0].name,
+        country: geocodingData[0].country,
       };
-      setCityData(data);
+      console.log("data:", data);
+      setCityData(data); // cityData state'ini güncelle
       dispatch(fetchWeatherData(data));
+    } else {
+      console.log("geocodingData is empty");
     }
-  }, [dispatch, selectedCity]);
+  }, [dispatch, geocodingData]);
+  useEffect(() => {
+    // console.log("geocodingData ---------------11111", geocodingData);
+    //console.log("weatherData ---------------11111", weatherData);
+    console.log("status ---------------11111", status);
+  }, [geocodingData, weatherData, status]);
 
   return (
     <SafeAreaView style={styles.container}>
-      {status === "loading" && <Text>Loading...</Text>}
-      {status === "idle" && weatherData && selectedCity && (
+      {status === "loading" && (
+        <Text style={{ color: "white" }}>Loading..</Text>
+      )}
+      {status === "succeeded" && weatherData && geocodingData && cityData && (
         <>
           <View style={styles.cardContainer}>
             <Card cityData={cityData} weatherData={weatherData} />

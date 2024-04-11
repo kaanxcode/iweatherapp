@@ -1,17 +1,28 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { weatherAPI } from "../../api/weatherAPI";
 import { geocodingAPI } from "../../api/geocodingAPI";
+import axios from "axios";
 
 export const fetchGeocodingData = createAsyncThunk(
-  "cityOne/fetchGeocodingData",
-  async (cityOne) => {
-    const cityData = await geocodingAPI.fetchGeocoding(cityOne);
-    return cityData;
+  "cityThree/fetchGeocodingData",
+  async (cityThree) => {
+    const apiKey = process.env.EXPO_PUBLIC_OPEN_WEATHER_KEY;
+    //console.log("apiKey", apiKey);
+
+    const apiUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityThree}&limit=3&appid=${apiKey}`;
+
+    try {
+      const cityData = await axios.get(apiUrl);
+      //console.log("responseapı", JSON.stringify(response.data));
+      return cityData.data;
+    } catch (error) {
+      throw new Error("Unable to fetch weather data");
+    }
   }
 );
 
 export const fetchWeatherData = createAsyncThunk(
-  "cityOne/fetchWeatherData",
+  "cityThree/fetchWeatherData",
   async (cityData) => {
     try {
       const weatherData = await weatherAPI.fetchWeather(cityData);
@@ -22,8 +33,8 @@ export const fetchWeatherData = createAsyncThunk(
   }
 );
 
-const cityOneSlice = createSlice({
-  name: "cityOne",
+const cityThreeSlice = createSlice({
+  name: "cityThree",
   initialState: {
     geocodingData: null,
     weatherData: null,
@@ -58,4 +69,4 @@ const cityOneSlice = createSlice({
   },
 });
 
-export default cityOneSlice.reducer;
+export default cityThreeSlice.reducer;

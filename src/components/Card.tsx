@@ -8,6 +8,10 @@ import {
 } from "../helpers/utils";
 
 const Card = ({ cityData, weatherData }) => {
+  if (!cityData) {
+    // cityData null ise ekrana hata mesajı basabilir veya bir loading indicator gösterebilirsiniz
+    return <Text>Loading...</Text>;
+  }
   const { name, country } = cityData;
   const { current, daily } = weatherData;
   const data = unixToFormattedDateParts(current.dt);

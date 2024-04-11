@@ -8,6 +8,8 @@ import {
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import * as Location from "expo-location";
+import { useDispatch, useSelector } from "react-redux";
+import { setCountryAction } from "../redux/reducer/MyLocationWeatherSlice";
 
 const GeoLocationButton = () => {
   const navigation = useNavigation();
@@ -15,6 +17,8 @@ const GeoLocationButton = () => {
   const [address, setAddress] = useState();
   const [cityData, setCityData] = useState();
   const [loading, setLoading] = useState(false); // Yükleme durumu için state
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getPermission = async () => {
@@ -29,21 +33,28 @@ const GeoLocationButton = () => {
 
       let currentLocation = await Location.getCurrentPositionAsync({});
       setLocation(currentLocation);
-      console.log(currentLocation);
+      //console.log(currentLocation);
       const reverseGeocodedAddress = await Location.reverseGeocodeAsync({
         latitude: currentLocation.coords.latitude,
         longitude: currentLocation.coords.longitude,
       });
       setAddress(reverseGeocodedAddress[0]);
-      console.log(reverseGeocodedAddress[0]);
+      console.log(
+        "dispatch(setCountry(reverseGeocodedAddress[0].isoCountryCode));",
+        reverseGeocodedAddress[0].isoCountryCode
+      );
+      const country = reverseGeocodedAddress[0].isoCountryCode;
+      dispatch(setCountryAction(country));
+
+      //console.log(reverseGeocodedAddress[0]);
     };
 
     getPermission(); // useEffect kancasının içinde çağrılıyor
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
-    console.log("adress", address);
-    console.log("location", location);
+    //console.log("adress", address);
+    //console.log("location", location);
   }, [location, address]);
 
   useEffect(() => {
@@ -58,7 +69,7 @@ const GeoLocationButton = () => {
   }, [address]);
 
   useEffect(() => {
-    console.log("cityyyyy dataaa", cityData);
+    //console.log("cityyyyy dataaa", cityData);
   }, [cityData]);
 
   const handlePress = () => {
@@ -68,7 +79,7 @@ const GeoLocationButton = () => {
     }
 
     if (cityData) {
-      console.log("cityData2222222", cityData);
+      //console.log("cityData2222222", cityData);
       // @ts-ignore
       navigation.navigate("TopTabs", {
         screen: "MyLocationWeather",

@@ -13,7 +13,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const WeatherScreen = ({ route }) => {
   const { cityData } = route.params;
-  console.log("cityData", cityData);
+  //console.log("cityData", cityData);
   const dispatch = useDispatch();
   const weatherData = useSelector(getWeather);
   //console.log("weatherscreen", weatherData);

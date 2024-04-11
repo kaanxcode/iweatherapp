@@ -13,10 +13,12 @@ import GeoLocationButton from "../components/GeoLocationButton";
 import { CityAPI } from "../api/CityAPI";
 
 const HomeScreen = () => {
-  useEffect(() => {
-    const lang = CityAPI();
-    console.log(lang);
-  }, []);
+  // useEffect(() => {
+  //   const { cityOne, cityTwo, cityThree } = CityAPI("TR");
+  //   console.log("cityOne", cityOne);
+  //   console.log("cityTwo", cityTwo);
+  //   console.log("cityThree", cityThree);
+  // }, []);
 
   return (
     <SafeAreaView style={styles.container}>
