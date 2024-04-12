@@ -12,7 +12,7 @@ export const fetchWeatherData = createAsyncThunk(
 
 const initialState = {
   weather: [],
-  status: "",
+  status: "idle",
   error: null,
 };
 
@@ -26,7 +26,7 @@ const weatherSlice = createSlice({
         state.status = "loading";
       })
       .addCase(fetchWeatherData.fulfilled, (state, action) => {
-        state.status = "idle";
+        state.status = "succeeded";
         state.weather = action.payload;
         // console.log("action", action);
       })

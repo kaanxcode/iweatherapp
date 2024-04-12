@@ -1,8 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { weatherAPI } from "../../api/weatherAPI";
+import { Alert } from "react-native";
 
 export const fetchWeatherData = createAsyncThunk(
-  "MyLocationWeather/fetchWeatherData",
+  "myLocationWeather/fetchWeatherData",
   async (cityData) => {
     const response = await weatherAPI.fetchWeather(cityData);
     //console.log("respone", response);
@@ -11,9 +12,13 @@ export const fetchWeatherData = createAsyncThunk(
 );
 
 export const setCountryAction = createAsyncThunk(
-  "MyLocationWeather/setCountryAction",
+  "myLocationWeather/setCountryAction",
   async (country) => {
-    return country;
+    try {
+      return country;
+    } catch (error) {
+      Alert.alert("Country not found");
+    }
   }
 );
 
@@ -24,8 +29,8 @@ const initialState = {
   error: null,
 };
 
-const MyLocationWeatherSlice = createSlice({
-  name: "MyLocationWeather",
+const myLocationWeatherSlice = createSlice({
+  name: "myLocationWeather",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -57,7 +62,7 @@ const MyLocationWeatherSlice = createSlice({
   },
 });
 
-export const getWeather = (state) => state.MyLocationWeather.weather;
-export const getWeatherStatus = (state) => state.MyLocationWeather.status;
+export const getWeather = (state) => state.myLocationWeather.weather;
+export const getWeatherStatus = (state) => state.myLocationWeather.status;
 
-export default MyLocationWeatherSlice.reducer;
+export default myLocationWeatherSlice.reducer;

@@ -4,7 +4,7 @@ import geocodingReducer from "./reducer/geocodingSlice";
 import cityOneReducer from "./reducer/cityOneSlice";
 import cityTwoReducer from "./reducer/cityTwoSlice";
 import cityThreeReducer from "./reducer/cityThreeSlice";
-import MyLocationWeatherReducer from "./reducer/MyLocationWeatherSlice";
+import myLocationWeatherReducer from "./reducer/myLocationWeatherSlice";
 
 const rootReducer = combineReducers({
   weather: weatherReducer,
@@ -12,7 +12,7 @@ const rootReducer = combineReducers({
   cityOne: cityOneReducer,
   cityTwo: cityTwoReducer,
   cityThree: cityThreeReducer,
-  MyLocationWeather: MyLocationWeatherReducer,
+  myLocationWeather: myLocationWeatherReducer,
 });
 
 export function setupStore(preloadedState) {

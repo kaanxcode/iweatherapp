@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 import Card from "../components/Card";
 import WeatherDetails from "../components/WeatherDetails";
 import Daily from "../components/Daily";
@@ -10,11 +10,12 @@ import {
   fetchWeatherData,
 } from "../redux/reducer/cityOneSlice";
 import { CityAPI } from "../api/CityAPI";
+import LottieLoader from "../components/LottieLoader";
 
 const CityOneScreen = () => {
-  const country = useSelector((state) => state.MyLocationWeather.country);
+  const country = useSelector((state) => state.myLocationWeather.country);
   if (country === null) {
-    return <Text>loading</Text>;
+    return <LottieLoader />;
   }
   const { cityOne } = CityAPI(country);
 
@@ -24,7 +25,7 @@ const CityOneScreen = () => {
     shallowEqual
   );
   const [cityData, setCityData] = useState(null);
-  console.log("cityData one screen", cityData);
+  //console.log("cityData one screen", cityData);
 
   useEffect(() => {
     dispatch(fetchGeocodingData(cityOne));
@@ -32,18 +33,13 @@ const CityOneScreen = () => {
 
   useEffect(() => {
     if (geocodingData && geocodingData.length > 0) {
-      console.log(
-        "geocodingData[0].local_names.tr:",
-        geocodingData[0].local_names.tr
-      );
-
       const data = {
         lat: geocodingData[0].lat,
         lon: geocodingData[0].lon,
         name: geocodingData[0].name,
         country: geocodingData[0].country,
       };
-      console.log("data:", data);
+      //console.log("data:", data);
       setCityData(data); // cityData state'ini güncelle
       dispatch(fetchWeatherData(data));
     } else {
@@ -53,14 +49,12 @@ const CityOneScreen = () => {
   useEffect(() => {
     // console.log("geocodingData ---------------11111", geocodingData);
     //console.log("weatherData ---------------11111", weatherData);
-    console.log("status ---------------11111", status);
+    //console.log("status ---------------11111", status);
   }, [geocodingData, weatherData, status]);
 
   return (
     <SafeAreaView style={styles.container}>
-      {status === "loading" && (
-        <Text style={{ color: "white" }}>Loading..</Text>
-      )}
+      {status === "loading" && <LottieLoader />}
       {status === "succeeded" && weatherData && geocodingData && cityData && (
         <>
           <View style={styles.cardContainer}>

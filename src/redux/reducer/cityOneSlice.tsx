@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { weatherAPI } from "../../api/weatherAPI";
 import { geocodingAPI } from "../../api/geocodingAPI";
+import { Alert } from "react-native";
 
 export const fetchGeocodingData = createAsyncThunk(
   "cityOne/fetchGeocodingData",
@@ -17,7 +18,7 @@ export const fetchWeatherData = createAsyncThunk(
       const weatherData = await weatherAPI.fetchWeather(cityData);
       return weatherData;
     } catch (error) {
-      throw new Error("City data not found");
+      Alert.alert("City data not found");
     }
   }
 );

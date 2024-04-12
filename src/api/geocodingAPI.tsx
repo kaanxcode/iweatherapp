@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Alert } from "react-native";
 
 export const geocodingAPI = {
   fetchGeocoding: async (search) => {
@@ -12,7 +13,7 @@ export const geocodingAPI = {
       //console.log("responseapı", JSON.stringify(response.data));
       return response.data;
     } catch (error) {
-      throw new Error("Unable to fetch weather data");
+      return Alert.alert("Error", error.message);
     }
   },
 };

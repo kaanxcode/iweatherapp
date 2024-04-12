@@ -7,7 +7,7 @@ const Daily = ({ weatherData }) => {
   const daily = weatherData.daily;
 
   const renderItem = ({ item, index }) => {
-    const { day, month, dayOfMonth, year } = unixToFormattedDateParts(item.dt);
+    const { day } = unixToFormattedDateParts(item.dt);
     const iconUrl = iconIdToImage(item.weather[0].icon);
 
     return (

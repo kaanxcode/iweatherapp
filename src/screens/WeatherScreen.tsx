@@ -10,6 +10,7 @@ import Card from "../components/Card";
 import WeatherDetails from "../components/WeatherDetails";
 import Daily from "../components/Daily";
 import { SafeAreaView } from "react-native-safe-area-context";
+import LottieLoader from "../components/LottieLoader";
 
 const WeatherScreen = ({ route }) => {
   const { cityData } = route.params;
@@ -26,8 +27,8 @@ const WeatherScreen = ({ route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {status === "loading" && <Text>Loading...</Text>}
-      {status === "idle" && weatherData && (
+      {status === "loading" && <LottieLoader />}
+      {status === "succeeded" && weatherData && (
         <>
           <View style={styles.cardContainer}>
             <Card cityData={cityData} weatherData={weatherData} />

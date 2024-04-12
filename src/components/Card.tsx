@@ -1,16 +1,17 @@
 import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { unixToFormattedDateParts } from "../helpers/epochConverter";
 import {
   capitalizeFirstLetter,
   getFirstTwoDigits,
   iconIdToImage,
 } from "../helpers/utils";
+import LottieLoader from "./LottieLoader";
 
 const Card = ({ cityData, weatherData }) => {
   if (!cityData) {
     // cityData null ise ekrana hata mesajı basabilir veya bir loading indicator gösterebilirsiniz
-    return <Text>Loading...</Text>;
+    return <LottieLoader />;
   }
   const { name, country } = cityData;
   const { current, daily } = weatherData;

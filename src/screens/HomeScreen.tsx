@@ -1,25 +1,10 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  ImageBackground,
-  Image,
-} from "react-native";
+import { StyleSheet, Text, View, ImageBackground, Image } from "react-native";
 import React, { useEffect } from "react";
 import SearchBar from "../components/SearchBar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import GeoLocationButton from "../components/GeoLocationButton";
-import { CityAPI } from "../api/CityAPI";
 
 const HomeScreen = () => {
-  // useEffect(() => {
-  //   const { cityOne, cityTwo, cityThree } = CityAPI("TR");
-  //   console.log("cityOne", cityOne);
-  //   console.log("cityTwo", cityTwo);
-  //   console.log("cityThree", cityThree);
-  // }, []);
-
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground

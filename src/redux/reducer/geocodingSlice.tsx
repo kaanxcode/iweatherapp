@@ -11,7 +11,7 @@ export const fetchGeocodingData = createAsyncThunk(
 );
 const initialState = {
   geocoding: [],
-  status: "",
+  status: "idle",
   error: null,
 };
 
@@ -25,7 +25,7 @@ const geocodingSlice = createSlice({
         state.status = "loading";
       })
       .addCase(fetchGeocodingData.fulfilled, (state, action) => {
-        state.status = "idle";
+        state.status = "successed";
         state.geocoding = action.payload;
         // console.log("action", action);
       })
