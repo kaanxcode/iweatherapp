@@ -43,7 +43,7 @@ const CityOneScreen = () => {
       setCityData(data); // cityData state'ini güncelle
       dispatch(fetchWeatherData(data));
     } else {
-      console.log("geocodingData is empty");
+      //console.log("geocodingData is empty");
     }
   }, [dispatch, geocodingData]);
   useEffect(() => {

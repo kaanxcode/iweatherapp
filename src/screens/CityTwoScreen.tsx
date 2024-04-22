@@ -39,7 +39,7 @@ const CityTwoScreen = () => {
         name: geocodingData[0].name,
         country: geocodingData[0].country,
       };
-      console.log("data:", data);
+      //console.log("data:", data);
       setCityData(data);
       dispatch(fetchWeatherData(data));
     } else {

@@ -84,12 +84,15 @@ const GeoLocationButton = () => {
     }
   };
 
-  const dynamicStyle = !loading ? styles.touchableContainer : styles.loader;
+  const dynamicStyle =
+    !loading && location && address ? styles.touchableContainer : styles.loader;
   return (
     <View style={styles.container}>
       <TouchableOpacity style={dynamicStyle} onPress={handlePress}>
-        {!loading && <Text style={styles.text}>My Location</Text>}
-        {loading && <LottieLoader />}
+        {!loading && location && address && (
+          <Text style={styles.text}>My Location</Text>
+        )}
+        {loading || !location || (!address && <LottieLoader />)}
       </TouchableOpacity>
     </View>
   );
@@ -121,5 +124,6 @@ const styles = StyleSheet.create({
   loader: {
     height: 100,
     width: "100%",
+    backgroundColor: "rgba(0,0,0,0)",
   },
 });

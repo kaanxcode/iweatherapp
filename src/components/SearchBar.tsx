@@ -53,7 +53,7 @@ const SearchBar = () => {
   };
 
   const renderCityItem = ({ item }) => {
-    if (!item) {
+    if (!item || loading === true) {
       return null;
     }
 

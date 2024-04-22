@@ -13,7 +13,7 @@ export const geocodingAPI = {
       //console.log("responseapı", JSON.stringify(response.data));
       return response.data;
     } catch (error) {
-      return Alert.alert("Error", error.message);
+      return Alert.alert("Error Geocoding API", error.message);
     }
   },
 };
