@@ -1,17 +1,23 @@
 import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { unixToFormattedDateParts } from "../helpers/epochConverter";
 import {
   capitalizeFirstLetter,
   getFirstTwoDigits,
   iconIdToImage,
 } from "../helpers/utils";
+import LottieLoader from "./LottieLoader";
 
 const Card = ({ cityData, weatherData }) => {
+  if (!cityData) {
+    // cityData null ise ekrana hata mesajı basabilir veya bir loading indicator gösterebilirsiniz
+    return <LottieLoader />;
+  }
   const { name, country } = cityData;
   const { current, daily } = weatherData;
   const data = unixToFormattedDateParts(current.dt);
-  const iconUrl = iconIdToImage(current.weather[0].icon);
+  //const iconUrl = iconIdToImage(current.weather[0].icon);
+  console.log("current.weather[0].icon", current.weather[0].icon);
 
   return (
     <View style={styles.imageContainer}>
@@ -52,12 +58,13 @@ const Card = ({ cityData, weatherData }) => {
             </View>
             <View style={styles.detailTwoContainer}>
               <View style={styles.iconContainer}>
-                <Image
+                {iconIdToImage(current.weather[0].icon)}
+                {/* <Image
                   source={{
                     uri: iconUrl,
                   }}
                   style={styles.iconImage}
-                />
+                /> */}
               </View>
             </View>
           </View>

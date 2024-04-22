@@ -15,18 +15,16 @@ import {
   getGeocodingStatus,
 } from "../redux/reducer/geocodingSlice";
 import { useNavigation } from "@react-navigation/native";
-import { getWeatherStatus } from "../redux/reducer/weatherSlice";
 
 const SearchBar = () => {
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const geocodingData = useSelector(getGeocoding);
   const status = useSelector(getGeocodingStatus);
-  const statusWeather = useSelector(getWeatherStatus);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     // Kullanıcının girdiği şehir ismi değiştiğinde yeni bir istek gönder
@@ -39,6 +37,7 @@ const SearchBar = () => {
     setLoading(true);
     // Seçilen şehrin koordinatlarını al
     const selectedCity = geocodingData.find((item) => item.name === city);
+
     const selectedCityData = {
       lat: selectedCity.lat,
       lon: selectedCity.lon,
@@ -49,12 +48,12 @@ const SearchBar = () => {
     setTimeout(() => {
       // @ts-ignore
       navigation.navigate("Weather", { cityData: selectedCityData });
-      setLoading(false); // Set loading to false after navigation
+      setLoading(false);
     }, 1500);
   };
 
   const renderCityItem = ({ item }) => {
-    if (!item) {
+    if (!item || loading === true) {
       return null;
     }
 
@@ -82,7 +81,7 @@ const SearchBar = () => {
         {loading === true && <ActivityIndicator color="#8FB2F5" />}
       </View>
 
-      {status === "idle" && geocodingData && (
+      {status === "successed" && geocodingData && search && (
         <FlatList
           data={geocodingData}
           renderItem={renderCityItem}

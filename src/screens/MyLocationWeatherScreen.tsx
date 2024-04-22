@@ -4,7 +4,7 @@ import {
   getWeatherStatus,
   getWeather,
   fetchWeatherData,
-} from "../redux/reducer/weatherSlice";
+} from "../redux/reducer/myLocationWeatherSlice";
 import { ActivityIndicator, Text, View, StyleSheet } from "react-native";
 import Card from "../components/Card";
 import WeatherDetails from "../components/WeatherDetails";
@@ -12,13 +12,15 @@ import Daily from "../components/Daily";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LottieLoader from "../components/LottieLoader";
 
-const WeatherScreen = ({ route }) => {
-  const { cityData } = route.params;
-  //console.log("cityData", cityData);
+const MyLocationWeatherScreen = ({ route }) => {
+  const { cityData } = route.params || {};
+  //console.log("cityData Mylocation weathe screen", cityData);
+
   const dispatch = useDispatch();
   const weatherData = useSelector(getWeather);
-  //console.log("weatherscreen", weatherData);
+  //console.log("weatherData", weatherData);
   const status = useSelector(getWeatherStatus);
+  //console.log("weatherData", weatherData);
 
   useEffect(() => {
     // @ts-ignore
@@ -28,7 +30,7 @@ const WeatherScreen = ({ route }) => {
   return (
     <SafeAreaView style={styles.container}>
       {status === "loading" && <LottieLoader />}
-      {status === "succeeded" && weatherData && (
+      {status === "succeededW" && (
         <>
           <View style={styles.cardContainer}>
             <Card cityData={cityData} weatherData={weatherData} />
@@ -45,7 +47,7 @@ const WeatherScreen = ({ route }) => {
   );
 };
 
-export default WeatherScreen;
+export default MyLocationWeatherScreen;
 
 const styles = StyleSheet.create({
   container: {

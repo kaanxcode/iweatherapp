@@ -7,18 +7,20 @@ const Daily = ({ weatherData }) => {
   const daily = weatherData.daily;
 
   const renderItem = ({ item, index }) => {
-    const { day, month, dayOfMonth, year } = unixToFormattedDateParts(item.dt);
-    const iconUrl = iconIdToImage(item.weather[0].icon);
+    const { day } = unixToFormattedDateParts(item.dt);
+    //const iconUrl = ;
 
     return (
       <View style={styles.itemContainer}>
         <Text style={styles.dayText}>{day}</Text>
-        <Image
+
+        {iconIdToImage(item.weather[0].icon, 56, 56)}
+        {/* <Image
           style={styles.image}
           source={{
             uri: iconUrl,
           }}
-        />
+        /> */}
         <Text style={styles.dayTemp}>{getFirstTwoDigits(item.temp.day)}°c</Text>
         <Text style={styles.nightTemp}>
           {getFirstTwoDigits(item.temp.night)}°c

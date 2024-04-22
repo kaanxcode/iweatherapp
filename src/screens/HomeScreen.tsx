@@ -1,12 +1,5 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  ImageBackground,
-  Image,
-} from "react-native";
-import React from "react";
+import { StyleSheet, Text, View, ImageBackground, Image } from "react-native";
+import React, { useEffect } from "react";
 import SearchBar from "../components/SearchBar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import GeoLocationButton from "../components/GeoLocationButton";
@@ -37,9 +30,9 @@ const HomeScreen = () => {
         </View>
         <View style={styles.searchBarContaier}>
           <SearchBar />
-        </View>
-        <View style={styles.geoLocationButtonContainer}>
-          <GeoLocationButton />
+          <View style={styles.geoLocationButtonContainer}>
+            <GeoLocationButton />
+          </View>
         </View>
       </ImageBackground>
     </SafeAreaView>
@@ -98,5 +91,9 @@ const styles = StyleSheet.create({
   },
   textTitleColor: {
     color: "#8FB2F5",
+  },
+  geoLocationButtonContainer: {
+    flex: 1,
+    marginTop: 10,
   },
 });
